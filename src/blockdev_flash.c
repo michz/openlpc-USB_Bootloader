@@ -53,8 +53,16 @@ int BlockDevWrite(uint32_t dwAddress, uint8_t * pbBuf) {
         debug("Disallowing write to the boot sector");
     } else if(offset < (BOOT_SECT_SIZE + FAT_SIZE + ROOT_DIR_SIZE)) {
         debug("Modifying a root directory entry in RAM disk");
+        debug_no_newline("Directory entry before write: 0x");
+        for(uint32_t i = 0; i < BLOCKSIZE; i++) {
+            debug_no_newline("%x ", Fat_RootDir[(offset + i) - BOOT_SECT_SIZE]);
+        }
+        debug("");
+
+        debug_no_newline("Directory entry after write: 0x");
         for(uint32_t i = 0; i < BLOCKSIZE; i++) {
             Fat_RootDir[(offset + i) - BOOT_SECT_SIZE] = pbBuf[i];
+            debug_no_newline("%x ", Fat_RootDir[(offset + i) - BOOT_SECT_SIZE]);
 
             // erasing a file, mark first byte of entry with 0xe5
             if(pbBuf[i] == 0xe5 ) {
@@ -67,6 +75,7 @@ int BlockDevWrite(uint32_t dwAddress, uint8_t * pbBuf) {
                 }
             }
         }
+        debug("");
     } else {
         write_flash((unsigned *)((uint8_t*)USER_FLASH_START + (offset - (
                         BOOT_SECT_SIZE + FAT_SIZE + ROOT_DIR_SIZE))),
