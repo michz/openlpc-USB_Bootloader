@@ -32,7 +32,7 @@
 typedef struct FatBootSector {
     unsigned char       bootjmp[3];
     unsigned char       oem_name[8];
-    unsigned short          bytes_per_sector;
+    unsigned short      bytes_per_sector;
     unsigned char       sectors_per_cluster;
     unsigned short      reserved_sector_count;
     unsigned char       table_count;
