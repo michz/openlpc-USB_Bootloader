@@ -94,7 +94,7 @@ _install() {
 download() {
     url=$1
     filename=$2
-    curl $url -L --O $filename
+    curl $url -L -o $filename
 }
 
 if [ `id -u` == 0 ]; then
