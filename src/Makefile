@@ -10,7 +10,7 @@ GCC_BIN = ../dependencies/gcc-arm-embedded/bin/
 endif
 
 ifndef JTAG_INTERFACE
-	JTAG_INTERFACE = olimex-arm-usb-ocd
+	JTAG_INTERFACE = olimex-arm-usb-ocd-custom
 endif
 
 OPENOCD_CONF_BASE = ../conf/openocd
@@ -77,7 +77,7 @@ $(PROJECT).bin: $(PROJECT).elf
 
 flash: all
 	@echo "Flashing bootloader via JTAG with OpenOCD..."
-	@(openocd -f $(OPENOCD_CONF_BASE)/interface/$(JTAG_INTERFACE).cfg -f $(OPENOCD_CONF_BASE)/flash.cfg && echo "$(GREEN)Flashed bootloader successfully.$(COLOR_RESET)") || echo "$(RED)Flashing bootloader failed.$(COLOR_RESET)"
+	@(openocd -s $(OPENOCD_CONF_BASE) -f interface/$(JTAG_INTERFACE).cfg -f flash.cfg && echo "$(GREEN)Flashed bootloader successfully.$(COLOR_RESET)") || echo "$(RED)Flashing bootloader failed.$(COLOR_RESET)"
 
 
 gdb: all
