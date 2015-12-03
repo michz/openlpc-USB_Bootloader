@@ -1,3 +1,8 @@
+ATTENTION
+=========
+This should BECOME a modified version running on LPC1769.
+
+
 openlpc-USB_Bootloader
 ======================
 
