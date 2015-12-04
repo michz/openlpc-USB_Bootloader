@@ -203,6 +203,7 @@ int user_code_present(void) {
     return (true);
 }
 
+/*
 void check_isp_entry_pin(void)
 {
     unsigned long i,j;
@@ -221,6 +222,7 @@ void check_isp_entry_pin(void)
         execute_user_code();
     }
 }
+*/
 
 void erase_user_flash(void)
 {

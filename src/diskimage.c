@@ -32,7 +32,7 @@ const FatBootSector_t BOOT_SECTOR = {
 };
 
 FatDirectoryEntry_t DIRECTORY_ENTRIES[ROOT_DIR_ENTRIES] = {
-    { {'L', 'P', 'C', '1', '7', '5', '9',' ', ' ', ' ', ' '},
+    { {'S', 'K', 'Y', 'N', 'E', 'T', 'D','O', 'N', 'G', 'L'},
         // file attributes
         0x28
     },

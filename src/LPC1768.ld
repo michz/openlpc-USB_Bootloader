@@ -5,7 +5,9 @@ GROUP(-lstdc++ -lsupc++ -lm -lc -lnosys -lgcc)
 MEMORY
 {
   FLASH (rx) : ORIGIN = 0x00000000, LENGTH = 512K
-  RAM (rwx) : ORIGIN = 0x100000C8, LENGTH = 0x7F38
+  RAM (rwx) : ORIGIN = 0x100000C8, LENGTH = 0x7F28
+  /*RAM (rwx) : ORIGIN = 0x100000C8, LENGTH = 0x7F38 */ /* ORIGINAL */
+  RamBootShared (rwx) : ORIGIN = 0x10007FF0, LENGTH = 0x10
 
   USB_RAM(rwx) : ORIGIN = 0x2007C000, LENGTH = 16K
   ETH_RAM(rwx) : ORIGIN = 0x20080000, LENGTH = 16K
@@ -147,4 +149,32 @@ SECTIONS
 
     /* Check if data + heap + stack exceeds RAM limit */
     ASSERT(__StackLimit >= __HeapLimit, "region RAM overflowed with stack")
+   
+       
+    /* DATA section for RamBootShared */
+    .data_RAM2 : ALIGN(4)
+    {
+       FILL(0xff)
+       *(.ramfunc.$RAM2)
+       *(.ramfunc.$RamBootShared)
+        *(.data.$RAM2*)
+        *(.data.$RamBootShared*)
+       . = ALIGN(4) ;
+    } > RamBootShared /* AT>MFlash512 */
+    
+    /* BSS section for RamBootShared */
+    .bss_RAM2 : ALIGN(4)
+    {
+        *(.bss.$RAM2*)
+        *(.bss.$RamBootShared*)
+       . = ALIGN(4) ;
+    } > RamBootShared
+    
+    /* NOINIT section for RamBootShared */
+    .noinit_RAM2 (NOLOAD) : ALIGN(4)
+    {
+        *(.noinit.$RAM2*)
+        *(.noinit.$RamBootShared*)
+       . = ALIGN(4) ;
+    } > RamBootShared 
 }
